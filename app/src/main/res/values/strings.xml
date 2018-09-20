@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kevzterfinal</string>
+    <string name="menu1">Kevzterfinal</string>
+    <string name="menu2">Kevzterfina2</string>
+    <string name="menu3">Kevzterfina3</string>
+    <string name="menu4">Kevzterfina4</string>
 </resources>
