@@ -13,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
@@ -32,9 +36,14 @@ public class MainActivity extends AppCompatActivity {
             changetotwitchactivity();
 
         }
+
+
+
+
         String profile= g.getUser();
         String email = g.getEmail();
         String pic = g.getPicture();
+
 
 
 
@@ -49,7 +58,19 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
+
+
+
+
+
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        NavigationView navview = (NavigationView) findViewById(R.id.nav_view);
+        View header = navview.getHeaderView(0);
+        ImageView simpleImageView = (ImageView) header.findViewById(R.id.imageviewww);
+        Picasso.get().load(pic).into(simpleImageView);
+        TextView text = (TextView) header.findViewById(R.id.textView2);
+        text.setText(profile);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
