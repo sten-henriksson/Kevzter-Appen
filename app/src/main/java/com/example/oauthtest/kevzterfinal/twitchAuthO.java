@@ -8,8 +8,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class twitchAuthO extends AppCompatActivity {
 
@@ -41,6 +54,11 @@ public class twitchAuthO extends AppCompatActivity {
                 map.put(name, value);
             }
             Log.i("INTENTINTENTINTENTINTE",""+map.get("my.special.scheme:///oauth2callback#access_token"));
+            try {
+                run(map.get("my.special.scheme:///oauth2callback#access_token"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 
@@ -55,6 +73,61 @@ public class twitchAuthO extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private final OkHttpClient client = new OkHttpClient();
+
+    public void run(String bearer) throws Exception {
+        Request request = new Request.Builder()
+                .url("https://api.twitch.tv/helix/users").removeHeader("tags").addHeader("Authorization","Bearer "+bearer)
+                .build();
+        Log.i("url",""+request.toString());
+        Log.i("header",""+request.headers());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
+
+                    try {
+
+                        JSONObject jObj1 = new JSONObject(in);
+                        JSONArray data  = jObj1.getJSONArray("data");
+                        String temperature = data.getString(0);
+                        JSONObject jObj2 = new JSONObject(temperature);
+                        String login = jObj2.getString("login");
+                        String displayname = jObj2.getString("display_name");
+                        String profile_image_url = jObj2.getString("profile_image_url");
+                        String email = jObj2.getString("email");
+                        Globals g = Globals.getInstance();
+                        g.setUser(login);
+                        g.setEmail(email);
+                        g.setPicture(profile_image_url);
+                        g.setData(100);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
     }
 }
 

@@ -18,12 +18,26 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Fragment fragment = null;
     Class fragmentClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        changetotwitchactivity();
+        Globals g = Globals.getInstance();
+        int data=g.getData();
+
+        if(data==0){
+
+            changetotwitchactivity();
+
+        }
+        String profile= g.getUser();
+        String email = g.getEmail();
+        String pic = g.getPicture();
+
+
+
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -83,8 +97,15 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void changetotwitchactivity() {
-        Intent intent = new Intent(this, twitchAuthO.class);
-        startActivity(intent);
+
+
+            Log.i("INTENTINTENTINTENTINTE","changerun");
+
+            Intent intent = new Intent(this, twitchAuthO.class);
+            startActivity(intent);
+        }
+
+
     }
-}
