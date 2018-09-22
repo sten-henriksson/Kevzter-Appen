@@ -1,6 +1,9 @@
 package com.example.oauthtest.kevzterfinal;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -108,6 +111,22 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+        //firebase stuff for notifications
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNoti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID,Constants.CHANNEL_NAME,NotificationManager.IMPORTANCE_HIGH);
+
+            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400});
+            mNoti.createNotificationChannel(mChannel);
+
+
+
+
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
