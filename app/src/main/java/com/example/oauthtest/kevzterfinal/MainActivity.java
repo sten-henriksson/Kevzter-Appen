@@ -2,7 +2,9 @@ package com.example.oauthtest.kevzterfinal;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -32,20 +34,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Globals g = Globals.getInstance();
+        SharedPreferences myPrefs;
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+
+        String profilelocal = myPrefs.getString("profile","Default");
+        String emaillocal = myPrefs.getString("email","Default");
+        String piclocal = myPrefs.getString("pic","Default");
+
+        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         int data=g.getData();
-
+        String profile= g.getUser();
+        String email = g.getEmail();
+        String pic = g.getPicture();
+        Log.i("INTENTINTENTINTENTINTE",pic+" LOCALYSTORED "+piclocal);
         if(data==0){
+            if(profilelocal=="Default"){
+                changetotwitchactivity();
 
-            changetotwitchactivity();
+            }
+            else{
+                profile=profilelocal;
+                email=emaillocal;
+                pic=piclocal;
+            }
+
+
 
         }
 
 
 
 
-        String profile= g.getUser();
-        String email = g.getEmail();
-        String pic = g.getPicture();
+
 
 
 
@@ -149,3 +169,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
