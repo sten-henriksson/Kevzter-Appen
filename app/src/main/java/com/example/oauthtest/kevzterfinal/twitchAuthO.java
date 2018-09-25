@@ -1,14 +1,13 @@
 package com.example.oauthtest.kevzterfinal;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,10 +20,8 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -116,21 +113,10 @@ public class twitchAuthO extends AppCompatActivity {
                         String profile_image_url = jObj2.getString("profile_image_url");
                         String email = jObj2.getString("email");
                         Globals g = Globals.getInstance();
-                        g.setUser(displayname);
+                        g.setUser(login);
                         g.setEmail(email);
                         g.setPicture(profile_image_url);
                         g.setData(100);
-
-                        SharedPreferences myPrefs;
-                        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = myPrefs.edit();
-                        editor.putString("profile", displayname);
-                        editor.putString("pic", profile_image_url);
-                        editor.putString("email", email);
-                        editor.apply();
-                        editor.commit();
-
-                        postfunction(displayname,email,displayname);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -143,26 +129,6 @@ public class twitchAuthO extends AppCompatActivity {
                 }
             }
         });
-    }
-    public void postfunction(String email,String userid,String username){
-        RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("email", email)
-                .addFormDataPart("usrid",userid)
-                .addFormDataPart("username",username)
-
-                .build();
-
-        Request request = new Request.Builder()
-                .url("https://trilleplay.net/proj-kevzter/restdata/api.php")
-                .post(requestBody)
-                .addHeader("anvnamn","kevzterclient")
-                .addHeader("lsenord","K3CvB3!30QvjiWk!l32Cv95XouL3GhwFv")
-                .build();
-        
-
-        Log.i("postrequesst",""+request.headers()+request.body());
-
     }
 }
 

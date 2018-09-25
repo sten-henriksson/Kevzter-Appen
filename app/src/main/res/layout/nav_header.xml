@@ -18,10 +18,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ImageView
+
         android:id="@+id/imageviewww"
         android:layout_width="183dp"
         android:layout_height="121dp"
         android:scaleType="fitCenter"
+
         app:srcCompat="@mipmap/ic_launcher_round" />
 
 </LinearLayout>

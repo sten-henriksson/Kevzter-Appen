@@ -2,9 +2,7 @@ package com.example.oauthtest.kevzterfinal;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -34,38 +32,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Globals g = Globals.getInstance();
-        SharedPreferences myPrefs;
-        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-
-        String profilelocal = myPrefs.getString("profile","Default");
-        String emaillocal = myPrefs.getString("email","Default");
-        String piclocal = myPrefs.getString("pic","Default");
-
-        myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         int data=g.getData();
-        String profile= g.getUser();
-        String email = g.getEmail();
-        String pic = g.getPicture();
-        Log.i("INTENTINTENTINTENTINTE",pic+" LOCALYSTORED "+piclocal);
+
         if(data==0){
-            if(profilelocal=="Default"){
-                changetotwitchactivity();
 
-            }
-            else{
-                profile=profilelocal;
-                email=emaillocal;
-                pic=piclocal;
-            }
-
-
+            changetotwitchactivity();
 
         }
 
 
 
 
-
+        String profile= g.getUser();
+        String email = g.getEmail();
+        String pic = g.getPicture();
 
 
 
@@ -73,7 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
+        fragmentClass = fragment1.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +68,18 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
+        TextView texVar= (TextView) findViewById(R.id.logout);
+        texVar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals g = Globals.getInstance();
+                g.setUser("");
+                g.setEmail("");
+                g.setPicture("");
+                g.setData(0);
 
+            }
+        });
 
 
 
@@ -169,4 +167,3 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
