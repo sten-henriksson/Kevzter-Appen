@@ -3,6 +3,7 @@ package com.example.oauthtest.kevzterfinal;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -34,21 +35,36 @@ public class MainActivity extends AppCompatActivity {
         Globals g = Globals.getInstance();
         int data=g.getData();
 
-        if(data==0){
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        Log.i("after",data+" "+saved);
+            if(data==100){
 
-            changetotwitchactivity();
+            }
+            else{
+                changetotwitchactivity();
+            }
+
+
+
+        if(saved=="1"){
 
         }
-
+        else{
+            changetotwitchactivity();
+        }
 
 
 
         String profile= g.getUser();
         String email = g.getEmail();
         String pic = g.getPicture();
+        Log.i("before",profile+email+pic);
+        profile = mPrefs.getString("login", "0");
+        email = mPrefs.getString("email", "0");
+        pic = mPrefs.getString("pic", "0");
 
-
-
+        Log.i("after",profile+email+pic);
 
 
 
@@ -78,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
                 g.setPicture("");
                 g.setData(0);
 
+                SharedPreferences mPrefs = getSharedPreferences("label", 0);
+                SharedPreferences.Editor mEditor = mPrefs.edit();
+                mEditor.putString("login", "").commit();
+                mEditor.putString("email", "").commit();
+                mEditor.putString("pic", "").commit();
+                mEditor.putString("saved", "0").commit();
+                changetotwitchactivity();
             }
         });
 
@@ -89,7 +112,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navview = (NavigationView) findViewById(R.id.nav_view);
         View header = navview.getHeaderView(0);
         ImageView simpleImageView = (ImageView) header.findViewById(R.id.imageviewww);
-        Picasso.get().load(pic).into(simpleImageView);
+
+        try
+        {
+            Picasso.get().load(pic).into(simpleImageView);//statements that may cause an exception
+        }
+        catch (Exception e){
+            changetotwitchactivity();
+        }
+
         TextView text = (TextView) header.findViewById(R.id.textView2);
         text.setText(profile);
         navigationView.setNavigationItemSelectedListener(

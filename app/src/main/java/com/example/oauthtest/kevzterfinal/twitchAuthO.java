@@ -1,6 +1,7 @@
 package com.example.oauthtest.kevzterfinal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,12 @@ public class twitchAuthO extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitch_auth_o);
 
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        mEditor.putString("login", "").commit();
+        mEditor.putString("email", "").commit();
+        mEditor.putString("pic", "").commit();
+        mEditor.putString("saved", "0").commit();
         final Button button = findViewById(R.id.authbutton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -117,6 +124,14 @@ public class twitchAuthO extends AppCompatActivity {
                         g.setEmail(email);
                         g.setPicture(profile_image_url);
                         g.setData(100);
+                        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+                        SharedPreferences.Editor mEditor = mPrefs.edit();
+                        mEditor.putString("login", login).commit();
+                        mEditor.putString("email", email).commit();
+                        mEditor.putString("pic", profile_image_url).commit();
+                        mEditor.putString("saved", "1").commit();
+
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
