@@ -34,12 +34,7 @@ public class twitchAuthO extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitch_auth_o);
 
-        SharedPreferences mPrefs = getSharedPreferences("label", 0);
-        SharedPreferences.Editor mEditor = mPrefs.edit();
-        mEditor.putString("login", "").commit();
-        mEditor.putString("email", "").commit();
-        mEditor.putString("pic", "").commit();
-        mEditor.putString("saved", "0").commit();
+
         final Button button = findViewById(R.id.authbutton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -144,6 +139,90 @@ public class twitchAuthO extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public void onDestroy() {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+
+        }
+
+
+
+        super.onDestroy();
+
+    }
+    public void onResume()
+    {
+
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        Log.i("tag","onstart"+saved);
+        if(saved=="0"){
+
+
+        }
+        else{
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        super.onResume();
+
+    }
+
+    public void onPause()
+    {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        Log.i("tag","onp"+saved+user);
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        super.onPause();
+
+    }
+    public void onStop()
+    {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        Log.i("tag","onstop"+saved+user);
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+        }
+
+        super.onStop();
+
     }
 }
 

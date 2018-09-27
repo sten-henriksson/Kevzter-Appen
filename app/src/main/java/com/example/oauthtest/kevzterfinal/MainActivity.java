@@ -22,6 +22,20 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Fragment fragment = null;
@@ -37,22 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
         String saved = mPrefs.getString("saved", "0");
-        Log.i("after",data+" "+saved);
-            if(data==100){
 
-            }
-            else{
-                changetotwitchactivity();
-            }
-
-
-
-        if(saved=="1"){
-
-        }
-        else{
-            changetotwitchactivity();
-        }
 
 
 
@@ -96,10 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
                 SharedPreferences mPrefs = getSharedPreferences("label", 0);
                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                mEditor.putString("login", "").commit();
-                mEditor.putString("email", "").commit();
-                mEditor.putString("pic", "").commit();
+                mEditor.putString("login", "0").commit();
+                mEditor.putString("email", "0").commit();
+                mEditor.putString("pic", "0").commit();
                 mEditor.putString("saved", "0").commit();
+                mEditor.apply();
+                mEditor.commit();
                 changetotwitchactivity();
             }
         });
@@ -186,15 +187,137 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private final OkHttpClient client = new OkHttpClient();
+    public void run() throws Exception {
+        Request request = new Request.Builder()
+                .url("https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCl1ihalsfme2TpTFg1TPXdg&maxResults=25&order=date&key=AIzaSyAYUGkL36EioOyA4EfyQL9vjm0-lf7JW5s%22")
+                .build();
+        Log.i("url",""+request.toString());
+        Log.i("header",""+request.headers());
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
+
+                    try {
+
+                        JSONObject jObj1 = new JSONObject(in);
+                        JSONArray data  = jObj1.getJSONArray("data");
+                        String temperature = data.getString(0);
+                        JSONObject jObj2 = new JSONObject(temperature);
+                        String login = jObj2.getString("login");
+                        String displayname = jObj2.getString("display_name");
+                        String profile_image_url = jObj2.getString("profile_image_url");
+                        String email = jObj2.getString("email");
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
+    }
     public void changetotwitchactivity() {
-
-
             Log.i("INTENTINTENTINTENTINTE","changerun");
-
             Intent intent = new Intent(this, twitchAuthO.class);
             startActivity(intent);
         }
+    @Override
+    public void onDestroy() {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+        }
+
+
+
+        super.onDestroy();
+
+    }
+    public void onResume()
+    {
+
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        Log.i("tag","onstart"+saved);
+        if(saved=="0"){
+
+            changetotwitchactivity();
+        }
+        else{
+
+        }
+        super.onResume();
+
+    }
+
+    public void onPause()
+    {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        Log.i("tag","onp"+saved+user);
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+            changetotwitchactivity();
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+        }
+
+        super.onPause();
+
+    }
+    public void onStop()
+    {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        Log.i("tag","onstop"+saved+user);
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user=="0"){
+
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
+        }
+        else{
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+        }
+
+        super.onStop();
+
+    }
 
 
     }
