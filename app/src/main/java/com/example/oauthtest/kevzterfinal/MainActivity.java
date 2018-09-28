@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         int data=g.getData();
 
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
-        String saved = mPrefs.getString("saved", "0");
-
+        String saved = mPrefs.getString("titel9", "0");
+        Log.i("titel",saved);
 
 
 
@@ -177,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+        try {
+            run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -188,51 +193,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private final OkHttpClient client = new OkHttpClient();
-    public void run() throws Exception {
-        Request request = new Request.Builder()
-                .url("https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCl1ihalsfme2TpTFg1TPXdg&maxResults=25&order=date&key=AIzaSyAYUGkL36EioOyA4EfyQL9vjm0-lf7JW5s%22")
-                .build();
-        Log.i("url",""+request.toString());
-        Log.i("header",""+request.headers());
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                Log.i("INTENTINTENTINTENTINTE","fail");
-            }
-
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                try (ResponseBody responseBody = response.body()) {
-                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-                    Headers responseHeaders = response.headers();
-                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
-                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                    }
-                    String in = response.body().string();
-                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
-
-                    try {
-
-                        JSONObject jObj1 = new JSONObject(in);
-                        JSONArray data  = jObj1.getJSONArray("data");
-                        String temperature = data.getString(0);
-                        JSONObject jObj2 = new JSONObject(temperature);
-                        String login = jObj2.getString("login");
-                        String displayname = jObj2.getString("display_name");
-                        String profile_image_url = jObj2.getString("profile_image_url");
-                        String email = jObj2.getString("email");
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            }
-        });
-    }
     public void changetotwitchactivity() {
             Log.i("INTENTINTENTINTENTINTE","changerun");
             Intent intent = new Intent(this, twitchAuthO.class);
@@ -313,10 +274,106 @@ public class MainActivity extends AppCompatActivity {
         else{
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
+
         }
 
         super.onStop();
 
+    }
+    //here will the code to save  youtube data and refresh every4h
+    public void run() throws Exception {
+        Log.i("json","start");
+        Request request = new Request.Builder()
+                .url("https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCl1ihalsfme2TpTFg1TPXdg&maxResults=20&order=date&key=AIzaSyAYUGkL36EioOyA4EfyQL9vjm0-lf7JW5s")
+                .build();
+        Log.i("url",""+request.toString());
+        Log.i("header",""+request.headers());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                Log.i("json","start1");
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    Log.i("json","start2");
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
+
+
+                    try {
+
+
+                        JSONObject jObj1 = new JSONObject(in);
+                        JSONArray data  = jObj1.getJSONArray("items");
+                        int secondloopparam= 0;
+                        for (int i = 0; i < 20; i++) {
+                            String temperature = data.getString(i);
+                            JSONObject jObj2 = new JSONObject(temperature);
+                            String temp2 = jObj2. getString("snippet");
+                            JSONObject jObj3 = new JSONObject(temp2);
+                            //gettitel here
+                            String temp3 = jObj3.getString("thumbnails");
+                            //Getthumbnailhere
+                            JSONObject jObj4 = new JSONObject(temp3);
+                            String temp4 = jObj4.getString("default") ;
+                            JSONObject jObj5 = new JSONObject(temp4);
+                            String temp5 = jObj2.getString("id");
+                            JSONObject jObj6= new JSONObject(temp5);
+                            String bild = jObj5.getString("url");
+                            String titel = jObj3.getString("title");
+                            String typee = jObj6.getString("kind");
+                            //bild
+
+                            try {
+                                String videoId = jObj6.getString("videoId");
+                                SharedPreferences mPrefs = getSharedPreferences("label", 0);
+                                SharedPreferences.Editor mEditor = mPrefs.edit();
+                                String loopintt = String.valueOf(secondloopparam);
+                                mEditor.putString("titel"+loopintt,titel);
+                                mEditor.putString("bild"+loopintt,bild);
+                                mEditor.putString("videoId"+loopintt,videoId);
+                                mEditor.apply();
+                                mEditor.commit();
+                                Log.i("loopjson","video"+secondloopparam);
+                                secondloopparam=secondloopparam+1;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+
+
+
+
+
+
+                        }
+
+
+
+                        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+                        String saved = mPrefs.getString("titel9", "0");
+                        Log.i("titel",saved);
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
     }
 
 
