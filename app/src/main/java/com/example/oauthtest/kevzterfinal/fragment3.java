@@ -1,5 +1,7 @@
 package com.example.oauthtest.kevzterfinal;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +12,16 @@ public class fragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment3layout, container, false);
+        // Inflate the layout for this
+        openWebPage("https://www.instagram.com/Kevzter/");
+        return inflater.inflate(R.layout.fragment1layout, container, false);
+
+    }
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse( url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(this.getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

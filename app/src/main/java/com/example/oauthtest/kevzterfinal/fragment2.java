@@ -1,5 +1,8 @@
 package com.example.oauthtest.kevzterfinal;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -28,11 +31,16 @@ import okhttp3.ResponseBody;
 public class fragment2 extends Fragment {
 
     String[] itemname ={
-            "https://i.ytimg.com/vi/VRciYxO3byg/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDIKxKSOkTxhB_XicRfsskXLYmJtQ"
+
     };
 
     String[] itemname2={
-            "test"
+
+
+
+    };
+    String[] Urls={
+
 
 
     };
@@ -42,12 +50,28 @@ public class fragment2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment2layout, container, false);
+        SharedPreferences mPrefs = this.getActivity().getSharedPreferences("label", 0);
+        String number = mPrefs.getString("numberof", "0");
+        int i = Integer.parseInt(number);
+        itemname2 = new String[i];
+        itemname = new String[i];
+        Urls = new String[i];
 
-        try {
-            run();
-        } catch (Exception e) {
-            e.printStackTrace();
+        i--;
+        while(i>=0){
+
+            String loopintt = String.valueOf(i);
+            String titel = mPrefs.getString("titel"+loopintt, "0");
+            String bild = mPrefs.getString("bild"+loopintt, "0");
+            String videoId = mPrefs.getString("videoId"+loopintt, "0");
+            itemname2[i]=titel;
+            itemname[i]=bild;
+            Urls[i]=videoId;
+            i--;
         }
+        Log.i("arrays",""+itemname.length+""+itemname2.length+""+Urls.length) ;
+
+
         ListView list = (ListView)view.findViewById(R.id.listmenu);
 
         CustomListAdapter adapter=new CustomListAdapter(this.getActivity(), itemname, itemname2);
@@ -59,9 +83,13 @@ public class fragment2 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView , View view , int position ,long arg3)
             {
-                Log.i("Item clicked","tushar:itemclicked"+position) ;
+                Log.i("Itemclicked","tushar:itemclicked"+position) ;
+                String url = Urls[position];
+                openWebPage(url);
             }
         });
+
+
         return view;
     }
     private final OkHttpClient client = new OkHttpClient();
@@ -136,5 +164,12 @@ public class fragment2 extends Fragment {
                 }
             }
         });
+    }
+    public void openWebPage(String url) {
+        Uri webpage = Uri.parse("https://www.youtube.com/watch?v="+url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(this.getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

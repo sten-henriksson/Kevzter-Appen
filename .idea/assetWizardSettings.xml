@@ -77,7 +77,8 @@
                                     <map>
                                       <entry key="backgroundColor" value="000000" />
                                       <entry key="backgroundImage" value="E:\kevzterlogo.png" />
-                                      <entry key="foregroundImage" value="E:\kevzterlogo.png" />
+                                      <entry key="foregroundImage" value="F:\youtube_social_icon_red.png" />
+                                      <entry key="foregroundLayerName" value="youtube" />
                                     </map>
                                   </option>
                                 </PersistentState>

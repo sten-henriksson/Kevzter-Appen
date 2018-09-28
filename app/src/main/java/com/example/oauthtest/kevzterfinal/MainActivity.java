@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         int data=g.getData();
 
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
-        String saved = mPrefs.getString("titel9", "0");
-        Log.i("titel",saved);
+
 
 
 
@@ -109,21 +108,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        navigationView.setItemIconTintList(null);
         NavigationView navview = (NavigationView) findViewById(R.id.nav_view);
         View header = navview.getHeaderView(0);
         ImageView simpleImageView = (ImageView) header.findViewById(R.id.imageviewww);
 
         try
         {
-            Picasso.get().load(pic).into(simpleImageView);//statements that may cause an exception
+
+            Picasso.get().load(pic).transform(new CircleTransform()).into(simpleImageView);
         }
         catch (Exception e){
             changetotwitchactivity();
         }
 
-        TextView text = (TextView) header.findViewById(R.id.textView2);
-        text.setText(profile);
+        //TextView text = (TextView) header.findViewById(R.id.textView2);
+        //text.setText(profile);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -137,17 +137,20 @@ public class MainActivity extends AppCompatActivity {
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
-                        if(menuItem.getItemId()==R.id.menu1){
-                            fragmentClass = fragment1.class;
-                        }
-                        else if(menuItem.getItemId()==R.id.menu2){
+                         if(menuItem.getItemId()==R.id.menu2){
                             fragmentClass = fragment2.class;
                         }
                         else if(menuItem.getItemId()==R.id.menu3){
+                            //snapchat
                             fragmentClass = fragment3.class;
                         }
                         else if(menuItem.getItemId()==R.id.menu4){
+                            //instagram
                             fragmentClass = fragment4.class;
+                        }
+                        else if(menuItem.getItemId()==R.id.menu5){
+                            //twitch
+                            fragmentClass = fragment5.class;
                         }
 
                         try {
@@ -323,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                             String temp3 = jObj3.getString("thumbnails");
                             //Getthumbnailhere
                             JSONObject jObj4 = new JSONObject(temp3);
-                            String temp4 = jObj4.getString("default") ;
+                            String temp4 = jObj4.getString("medium") ;
                             JSONObject jObj5 = new JSONObject(temp4);
                             String temp5 = jObj2.getString("id");
                             JSONObject jObj6= new JSONObject(temp5);
@@ -357,10 +360,13 @@ public class MainActivity extends AppCompatActivity {
 
                         }
 
-
-
                         SharedPreferences mPrefs = getSharedPreferences("label", 0);
-                        String saved = mPrefs.getString("titel9", "0");
+                        SharedPreferences.Editor mEditor = mPrefs.edit();
+                        String loopinttt = String.valueOf(secondloopparam);
+                        mEditor.putString("numberof",loopinttt).apply();
+                        mEditor.commit();
+
+                        String saved = mPrefs.getString("titel2", "0");
                         Log.i("titel",saved);
 
 
