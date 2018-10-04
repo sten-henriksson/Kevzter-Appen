@@ -30,7 +30,23 @@ public class twitchAuthO extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences mPrefs = getSharedPreferences("label", 0);
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user=="0"){
 
+        mEditor.putString("saved", "0").commit();
+        mEditor.putString("saved", "0").apply();
+            Log.i("workflow",""+"ifuser==0 twitchauth"+saved+""+user);
+
+    }
+        if(saved=="0"){
+            Log.i("workflow",""+"ifsaved==0 twitchauth"+saved+""+user);
+            mEditor.putString("user", "0").commit();
+            mEditor.putString("user", "0").apply();
+
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitch_auth_o);
 
@@ -67,9 +83,14 @@ public class twitchAuthO extends AppCompatActivity {
 
 
 
+
     }
 
+    @Override
+    public void onBackPressed()
+    {
 
+    }
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -147,12 +168,13 @@ public class twitchAuthO extends AppCompatActivity {
         String user = mPrefs.getString("login", "0");
         SharedPreferences.Editor mEditor = mPrefs.edit();
         if(user=="0"){
-
+            Log.i("workflow",""+"ifuser==0 onDestroy tiwtchauth"+saved+""+user);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
 
         }
         else{
+            Log.i("workflow",""+"else on destroy twitchauth"+saved+""+user);
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
 
@@ -166,17 +188,28 @@ public class twitchAuthO extends AppCompatActivity {
     public void onResume()
     {
 
+
+
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
         String saved = mPrefs.getString("saved", "0");
-        Log.i("tag","onstart"+saved);
-        if(saved=="0"){
-
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user.length()<=1){
+            Log.i("workflow",""+ "user == 0 twitchauth"+saved+""+user);
+            mEditor.putString("saved", "0").commit();
+            mEditor.putString("saved", "0").apply();
 
         }
         else{
+            Log.i("workflow",""+"else on onresume twitchauth"+saved+""+user);
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+            Log.i("workflow",""+"saved else intent to mainactivity on onresume twitchauth"+saved+""+user);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+
         }
+
         super.onResume();
 
     }
@@ -188,15 +221,16 @@ public class twitchAuthO extends AppCompatActivity {
         String user = mPrefs.getString("login", "0");
         SharedPreferences.Editor mEditor = mPrefs.edit();
         Log.i("tag","onp"+saved+user);
-        if(user=="0"){
-
+        if(user.length()<=1){
+            Log.i("workflow",""+"saved user = 0  on onp twitchauth"+saved+""+user);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
 
         }
         else{
-            mEditor.putString("saved", "1").commit();
-            mEditor.putString("saved", "1").apply();
+            Log.i("workflow",""+"saved else intent to mainactivity on onresume twitchauth"+saved+""+user);
+            /*mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();*/
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -211,12 +245,13 @@ public class twitchAuthO extends AppCompatActivity {
         String user = mPrefs.getString("login", "0");
         Log.i("tag","onstop"+saved+user);
         SharedPreferences.Editor mEditor = mPrefs.edit();
-        if(user=="0"){
-
+        if(user.length()<=1){
+            Log.i("workflow",""+"saved user=0 intent to mainactivity on onstop twitchauth"+saved+""+user);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
         }
         else{
+            Log.i("workflow",""+"saved else intent   onStop twitchauth"+saved+""+user);
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
         }

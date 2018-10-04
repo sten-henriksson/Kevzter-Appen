@@ -52,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
 
 
+        String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
+        if(user.length()<=1){
+            mEditor.putString("login", "Guest").commit();
+            mEditor.putString("login", "Guest").apply();
+            mEditor.putString("saved", "1").commit();
+            mEditor.putString("saved", "1").apply();
+            this.setTitle("Guest");
+
+        }
+        else {
+            this.setTitle(user);
+        }
 
 
         String profile= g.getUser();
@@ -152,7 +166,10 @@ public class MainActivity extends AppCompatActivity {
                             //twitch
                             fragmentClass = fragment5.class;
                         }
-
+                         else if(menuItem.getItemId()==R.id.menu6){
+                             //twitch
+                             fragmentClass = fortnitefragment.class;
+                         }
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
                         } catch (Exception e) {
@@ -185,6 +202,16 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            fortniteshop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            fortniteshopf();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -209,12 +236,13 @@ public class MainActivity extends AppCompatActivity {
         String user = mPrefs.getString("login", "0");
         SharedPreferences.Editor mEditor = mPrefs.edit();
         if(user=="0"){
-
+            Log.i("workflow",""+"user == 0  ondestroy mainactivity"+saved+""+user);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
 
         }
         else{
+            Log.i("workflow",""+"user == 1  ondestroy mainactivity"+saved+""+user);
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
         }
@@ -229,13 +257,20 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences mPrefs = getSharedPreferences("label", 0);
         String saved = mPrefs.getString("saved", "0");
+        String user = mPrefs.getString("login", "0");
+        SharedPreferences.Editor mEditor = mPrefs.edit();
         Log.i("tag","onstart"+saved);
-        if(saved=="0"){
+        if(user.length()<=1){
 
-            changetotwitchactivity();
+                mEditor.putString("login", "Guest").commit();
+                mEditor.putString("login", "Guest").apply();
+                mEditor.putString("saved", "1").commit();
+                mEditor.putString("saved", "1").apply();
+
+
         }
         else{
-
+            Log.i("workflow",""+"saved == 0 else  onResume mainactivity"+user.length()+user);
         }
         super.onResume();
 
@@ -249,12 +284,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor mEditor = mPrefs.edit();
         Log.i("tag","onp"+saved+user);
         if(user=="0"){
-
+            Log.i("workflow",""+"user == 0   onPause mainactivity "+saved);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
-            changetotwitchactivity();
+            //changetotwitchactivity();
         }
         else{
+            Log.i("workflow",""+"user == 0 else   onPause mainactivity "+saved);
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
         }
@@ -270,11 +306,12 @@ public class MainActivity extends AppCompatActivity {
         Log.i("tag","onstop"+saved+user);
         SharedPreferences.Editor mEditor = mPrefs.edit();
         if(user=="0"){
-
+            Log.i("workflow",""+"user == 0   onStop mainactivity "+saved);
             mEditor.putString("saved", "0").commit();
             mEditor.putString("saved", "0").apply();
         }
         else{
+            Log.i("workflow",""+"user == 0 else    onStop mainactivity "+saved);
             mEditor.putString("saved", "1").commit();
             mEditor.putString("saved", "1").apply();
 
@@ -381,6 +418,199 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void fortniteshop() throws Exception {
+        Log.i("json","start");
+        Request request = new Request.Builder()
+                .url("https://fnbr.co/api/shop").removeHeader("tags").addHeader("x-api-key","265f9a53-b672-4db9-968d-d80c06c06264")
+                .build();
+        Log.i("urlf",""+request.toString());
+        Log.i("headerf",""+request.headers());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                Log.i("json","start1");
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    Log.i("json","start2");
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
 
 
+                    try {
+
+
+                        JSONObject jObj1 = new JSONObject(in);
+                        String temp = jObj1.getJSONObject("data").getString("daily");
+                        JSONArray jarray = new JSONArray(temp);
+                        temp=jarray.getString(1);
+                        jObj1= new JSONObject(temp);
+                        temp = jObj1.getString("images");
+                        jObj1 = new JSONObject(temp);
+                        temp = jObj1.getString("gallery");
+                        System.out.println("forttest"+temp);
+                        int secondloopparam= 0;
+
+                        for (int i = 0; i < 7; i++) {
+
+
+                            try {
+                                temp=jarray.getString(secondloopparam);
+                                jObj1= new JSONObject(temp);
+                                temp = jObj1.getString("images");
+                                jObj1 = new JSONObject(temp);
+                                if(jObj1.getString("gallery")=="false"){
+                                    temp = jObj1.getString("icon");
+                                }
+                                else {
+                                    temp = jObj1.getString("gallery");
+                                }
+
+
+                                //String videoId = jObj6.getString("videoId");
+                                SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
+                                SharedPreferences.Editor mEditor = mPrefs.edit();
+                                String loopintt = String.valueOf(secondloopparam);
+
+                                mEditor.putString("shoppic"+loopintt,temp);
+
+                                mEditor.apply();
+                                mEditor.commit();
+                                Log.i("loopjson1","video"+temp);
+                                secondloopparam=secondloopparam+1;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+
+
+
+
+
+
+                        }
+
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
+    }
+    public void fortniteshopf() throws Exception {
+        Log.i("json","start");
+        Request request = new Request.Builder()
+                .url("https://fnbr.co/api/shop").removeHeader("tags").addHeader("x-api-key","265f9a53-b672-4db9-968d-d80c06c06264")
+                .build();
+        Log.i("urlf",""+request.toString());
+        Log.i("headerf",""+request.headers());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                Log.i("json","start1");
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    Log.i("json","start2");
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa"+in);
+
+
+                    try {
+
+
+                        JSONObject jObj1 = new JSONObject(in);
+                        String temp = jObj1.getJSONObject("data").getString("featured");
+                        JSONArray jarray = new JSONArray(temp);
+                        temp=jarray.getString(1);
+                        jObj1= new JSONObject(temp);
+                        temp = jObj1.getString("images");
+                        jObj1 = new JSONObject(temp);
+                        temp = jObj1.getString("gallery");
+                        System.out.println("forttest"+temp);
+                        int secondloopparam= 0;
+
+                        for (int i = 0; i < 9; i++) {
+
+
+                            try {
+                                temp=jarray.getString(secondloopparam);
+                                jObj1= new JSONObject(temp);
+                                temp = jObj1.getString("images");
+                                jObj1 = new JSONObject(temp);
+                                if(jObj1.getString("gallery")=="false"){
+                                    temp = jObj1.getString("icon");
+                                }
+                                else {
+                                    temp = jObj1.getString("gallery");
+                                }
+
+
+                                //String videoId = jObj6.getString("videoId");
+                                SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
+                                SharedPreferences.Editor mEditor = mPrefs.edit();
+                                String loopintt = String.valueOf(secondloopparam);
+
+                                mEditor.putString("shoppicf"+loopintt,temp);
+
+                                mEditor.apply();
+                                mEditor.commit();
+                                Log.i("loopjson1","video"+temp);
+                                secondloopparam=secondloopparam+1;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+
+
+
+
+
+
+                        }
+
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        });
+    }
+    @Override
+    public void onBackPressed()
+    {
+
+    }
     }

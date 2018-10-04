@@ -5,7 +5,7 @@
         <item
             android:id="@+id/menu2"
             android:icon="@mipmap/youtube"
-            android:title="@string/menu2" />
+            android:title="Youtube" />
         <item
             android:id="@+id/menu3"
             android:icon="@mipmap/insta"
@@ -18,5 +18,9 @@
             android:id="@+id/menu5"
             android:icon="@mipmap/twitchicons"
             android:title="Twitch" />
+        <item
+            android:id="@+id/menu6"
+            android:icon="@mipmap/lama"
+            android:title="Current Shop" />
     </group>
 </menu>
