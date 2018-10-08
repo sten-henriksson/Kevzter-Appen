@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +99,24 @@ public class fortnitefragment extends Fragment {
             }
         });
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int a = metrics.heightPixels;
+
+        Log.i("metrics",metrics.toString());
+
+        ViewGroup.LayoutParams params = list.getLayoutParams();
+        float b = metrics.scaledDensity;
+        if(b==1.5f){
+            params.height = 1750;
+            Log.i("metrics",""+b);
+        }
+        else if(b==3f){
+            params.height = 1650;
+            Log.i("metrics",""+b);
+        }
+
+        list.setLayoutParams(params);
 
         return view;
     }

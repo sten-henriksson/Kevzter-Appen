@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -459,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("forttest"+temp);
                         int secondloopparam= 0;
 
-                        for (int i = 0; i < 7; i++) {
+                        for (int i = 0; i < 5; i++) {
 
 
                             try {
@@ -554,7 +556,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("forttest"+temp);
                         int secondloopparam= 0;
 
-                        for (int i = 0; i < 9; i++) {
+                        for (int i = 0; i < 5; i++) {
 
 
                             try {
@@ -573,9 +575,9 @@ public class MainActivity extends AppCompatActivity {
                                 //String videoId = jObj6.getString("videoId");
                                 SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
                                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                                String loopintt = String.valueOf(secondloopparam);
+                                String loopintt = String.valueOf(secondloopparam+4);
 
-                                mEditor.putString("shoppicf"+loopintt,temp);
+                                mEditor.putString("shoppic"+loopintt,temp);
 
                                 mEditor.apply();
                                 mEditor.commit();
