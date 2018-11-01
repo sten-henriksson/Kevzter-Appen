@@ -10,8 +10,14 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="384dp"
-            android:layout_height="334dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             app:srcCompat="@drawable/ic_launcher_background" />
     </TableRow>
 </TableLayout>
