@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,8 +33,10 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -211,6 +214,11 @@ public class MainActivity extends AppCompatActivity {
         }
         try {
             fortniteshopf();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            post1();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -611,6 +619,43 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
+                }
+            }
+        });
+    }
+    public static final MediaType MEDIA_TYPE_MARKDOWN
+            = MediaType.get("text/x-markdown; charset=utf-8");
+
+
+    final String basicAuth = "Basic " + Base64.encodeToString("kevzterclient:K3CvB3!30QvjiWk!l32Cv95XouL3GhwFv".getBytes(), Base64.NO_WRAP);
+    public void post1() throws Exception {
+
+        Request request = new Request.Builder()
+                .url("https://trilleplay.net/proj-kevzter/restdata/api.php").removeHeader("tags").addHeader("Authorization",basicAuth).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, "asd"))
+                .build();
+        Log.i("urld",""+request.toString());
+        Log.i("headerd",""+request.headers());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.i("INTENTINTENTINTENTINTE","fail");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+                    String in = response.body().string();
+                    System.out.println("bbbbbbbbbbbbbbbbbbb"+in+response);
+
+
 
 
                 }
