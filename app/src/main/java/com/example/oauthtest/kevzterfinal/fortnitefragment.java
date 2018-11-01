@@ -41,13 +41,14 @@ public class fortnitefragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragmentfortnite, container, false);
         SharedPreferences mPrefs = this.getActivity().getSharedPreferences("fortnite", 0);
-        String number = "10";
-        int i = Integer.parseInt(number);
 
-        itemname = new String[i];
+        int lenght1 = mPrefs.getInt("lenghtf", 0);
+        int lenghtf1 = mPrefs.getInt("lenght", 0);
+        int asd = lenght1+lenghtf1;
+        itemname = new String[lenght1+lenghtf1];
 
-
-        i--;
+        int arrayvar = 0;
+        int i = asd;
 
         while(i>=0){
 
@@ -56,28 +57,22 @@ public class fortnitefragment extends Fragment {
             String bild = mPrefs.getString("shoppic"+loopintt, "0");
 
 
-            itemname[i]=bild;
+            if(bild.length()<=1){
 
-            i--;
-        }
-        int i2 = 0;
-        i=6;
-        while(i>=0){
-
-            String loopintt = String.valueOf(i);
-
-            String bild = mPrefs.getString("shoppicf"+loopintt, "0");
-
-            Log.i("arrayitemname",""+bild) ;
-            if(bild.length()>1){
-                itemname[i2+6]=bild;
-                Log.i("arrays",""+itemname[i+6]) ;
-                i2++;
             }
-
+            else{
+                itemname[arrayvar]=bild;
+                arrayvar++;
+            }
+            Log.i("bildbildbild",bild+ " "+bild.length()+" "+arrayvar) ;
+            Log.i("bildbildbild",bild.length()+" "+arrayvar) ;
 
             i--;
         }
+
+
+
+
 
         Log.i("arrays",""+itemname.length) ;
 

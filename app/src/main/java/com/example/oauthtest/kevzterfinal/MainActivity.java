@@ -460,8 +460,8 @@ public class MainActivity extends AppCompatActivity {
                         temp = jObj1.getString("gallery");
                         System.out.println("forttest"+temp);
                         int secondloopparam= 0;
-
-                        for (int i = 0; i < 5; i++) {
+                        int lenghtcounter = 0;
+                        for (int i = 0; i < 10; i++) {
 
 
                             try {
@@ -481,7 +481,10 @@ public class MainActivity extends AppCompatActivity {
                                 SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
                                 SharedPreferences.Editor mEditor = mPrefs.edit();
                                 String loopintt = String.valueOf(secondloopparam);
-
+                                if(temp.length()>=0){
+                                    lenghtcounter++;
+                                    mEditor.putInt("lenght",lenghtcounter);
+                                }
                                 mEditor.putString("shoppic"+loopintt,temp);
 
                                 mEditor.apply();
@@ -553,10 +556,10 @@ public class MainActivity extends AppCompatActivity {
                         temp = jObj1.getString("images");
                         jObj1 = new JSONObject(temp);
                         temp = jObj1.getString("gallery");
-                        System.out.println("forttest"+temp);
+                        System.out.println("forttestf"+temp);
                         int secondloopparam= 0;
-
-                        for (int i = 0; i < 5; i++) {
+                        int lenghtcounter = 0;
+                        for (int i = 0; i < 10; i++) {
 
 
                             try {
@@ -575,7 +578,11 @@ public class MainActivity extends AppCompatActivity {
                                 //String videoId = jObj6.getString("videoId");
                                 SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
                                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                                String loopintt = String.valueOf(secondloopparam+4);
+                                String loopintt = String.valueOf(secondloopparam+10);
+                                if(temp.length()>=0){
+                                    lenghtcounter++;
+                                    mEditor.putInt("lenghtf",lenghtcounter);
+                                }
 
                                 mEditor.putString("shoppic"+loopintt,temp);
 

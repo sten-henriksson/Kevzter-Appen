@@ -1,6 +1,7 @@
 package com.example.oauthtest.kevzterfinal;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class CustomListAdapterFortnite extends ArrayAdapter<String> {
         if(b>=itempic.length){
             b = itempic.length-1;
         }
+
         Log.i("INTENTINTENTINTENTINTE",""+position+" "+a+" "+b);
         Log.i("INTENTINTENTINTENTINTE",""+itempic[a]+" "+itempic[b]+" "+itempic[position]);
         try
