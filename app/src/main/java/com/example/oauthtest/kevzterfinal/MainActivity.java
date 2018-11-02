@@ -633,7 +633,11 @@ public class MainActivity extends AppCompatActivity {
     public void post1() throws Exception {
 
         Request request = new Request.Builder()
-                .url("https://trilleplay.net/proj-kevzter/restdata/api.php").removeHeader("tags").addHeader("Authorization",basicAuth).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, "asd"))
+                .url("https://trilleplay.net/proj-kevzter/restdata/api.php").removeHeader("tags").addHeader("Authorization",basicAuth).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, "{\n" +
+                        "    \"email\": \"EMAIL\",\n" +
+                        "    \"usrid\": \"Twitch Kontots unika ID.\",\n" +
+                        "    \"username\": \"Twitch Anv Namn.\"\n" +
+                        "}"))
                 .build();
         Log.i("urld",""+request.toString());
         Log.i("headerd",""+request.headers());
