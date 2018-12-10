@@ -1,9 +1,7 @@
 package com.example.oauthtest.kevzterfinal;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import java.util.Arrays;
+
+import com.example.stn.firebasetest.CustomListAdapterFortnite;
+import com.example.stn.firebasetest.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,73 +30,60 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class fragment2 extends Fragment {
+public class fortnitefragment extends Fragment {
 
     String[] itemname ={
 
     };
 
-    String[] itemname2={
 
-
-
-    };
-    String[] Urls={
-
-
-
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment2layout, container, false);
+        View view= inflater.inflate(R.layout.fragmentfortnite, container, false);
+        SharedPreferences mPrefs = this.getActivity().getSharedPreferences("fortnite", 0);
 
+        int lenght1 = mPrefs.getInt("lenghtf", 0);
+        int lenghtf1 = mPrefs.getInt("lenght", 0);
+        int asd = lenght1+lenghtf1;
+        itemname = new String[lenght1+lenghtf1];
 
-        Log.i("arrays",""+itemname.length+""+itemname2.length+""+Urls.length) ;
-        SharedPreferences mPrefs = this.getActivity().getSharedPreferences("label", 0);
-        String number = mPrefs.getString("numberof", "0");
-        int i = Integer.parseInt(number);
-        itemname2 = new String[i];
-        itemname = new String[i];
-        Urls = new String[i];
+        int arrayvar = 0;
+        int i = asd;
 
-        i--;
         while(i>=0){
 
             String loopintt = String.valueOf(i);
-            String titel = mPrefs.getString("titel"+loopintt, "0");
-            String bild = mPrefs.getString("bild"+loopintt, "0");
-            String videoId = mPrefs.getString("videoId"+loopintt, "0");
-            itemname2[i]=titel;
-            itemname[i]=bild;
-            Urls[i]=videoId;
+
+            String bild = mPrefs.getString("shoppic"+loopintt, "0");
+
+
+            if(bild.length()<=1){
+
+            }
+            else{
+                itemname[arrayvar]=bild;
+                arrayvar++;
+            }
+            Log.i("bildbildbild",bild+ " "+bild.length()+" "+arrayvar) ;
+            Log.i("bildbildbild",bild.length()+" "+arrayvar) ;
+
             i--;
         }
-        Log.i("arrays",""+itemname.length+""+itemname2.length+""+Urls.length) ;
 
-        //fixes the bug with diffren resultions on diffrent phones
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int a = metrics.heightPixels;
-        Log.i("metrics",metrics.toString());
 
-        ListView list = (ListView)view.findViewById(R.id.listmenu);
-        ViewGroup.LayoutParams params = list.getLayoutParams();
-        //fix for overlapping toolbar
-        float b = metrics.scaledDensity;
-        if(b==1.5f){
-            params.height = 1750;
-            Log.i("metrics",""+b);
-        }
-        else if(b==3f){
-            params.height = 1650;
-            Log.i("metrics",""+b);
-        }
-        list.setLayoutParams(params);
-        CustomListAdapter adapter=new CustomListAdapter(this.getActivity(), itemname, itemname2);
+
+
+
+        Log.i("arrays",""+itemname.length) ;
+
+
+        ListView list = (ListView)view.findViewById(R.id.listmenufortnite);
+
+        Log.i("arrayy",itemname.toString());
+        CustomListAdapterFortnite adapter=new CustomListAdapterFortnite(this.getActivity(), itemname);
 
         list.setAdapter(adapter);
 
@@ -108,11 +93,28 @@ public class fragment2 extends Fragment {
             public void onItemClick(AdapterView<?> adapterView , View view , int position ,long arg3)
             {
                 Log.i("Itemclicked","tushar:itemclicked"+position) ;
-                String url = Urls[position];
-                openWebPage(url);
+
             }
         });
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int a = metrics.heightPixels;
+
+        Log.i("metrics",metrics.toString());
+
+        ViewGroup.LayoutParams params = list.getLayoutParams();
+        float b = metrics.scaledDensity;
+        if(b==1.5f){
+            params.height = 1750;
+            Log.i("metrics",""+b);
+        }
+        else if(b==3f){
+            params.height = 1650;
+            Log.i("metrics",""+b);
+        }
+
+        list.setLayoutParams(params);
 
         return view;
     }

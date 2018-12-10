@@ -1,4 +1,4 @@
-package com.example.oauthtest.kevzterfinal;
+package com.example.stn.firebasetest;
 
 public class Constants {
     public static final String CHANNEL_ID = "mychannelid";

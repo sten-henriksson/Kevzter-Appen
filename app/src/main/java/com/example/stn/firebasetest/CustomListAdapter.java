@@ -1,4 +1,4 @@
-package com.example.oauthtest.kevzterfinal;
+package com.example.stn.firebasetest;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.stn.firebasetest.R;
 import com.squareup.picasso.Picasso;
 
 public class CustomListAdapter extends ArrayAdapter<String> {

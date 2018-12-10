@@ -1,4 +1,4 @@
-package com.example.oauthtest.kevzterfinal;
+package com.example.stn.firebasetest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

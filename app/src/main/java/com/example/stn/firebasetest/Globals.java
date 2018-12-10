@@ -1,4 +1,4 @@
-package com.example.oauthtest.kevzterfinal;
+package com.example.stn.firebasetest;
 
 public class Globals{
     private static Globals instance;

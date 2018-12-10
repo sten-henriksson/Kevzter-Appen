@@ -1,4 +1,4 @@
-package com.example.oauthtest.kevzterfinal;
+package com.example.stn.firebasetest;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.example.stn.firebasetest.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
