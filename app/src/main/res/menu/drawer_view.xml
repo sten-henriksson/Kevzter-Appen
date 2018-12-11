@@ -22,5 +22,9 @@
             android:id="@+id/menu6"
             android:icon="@mipmap/lama"
             android:title="Current Shop" />
+        <item
+            android:id="@+id/menu7"
+
+            android:title="Ads" />
     </group>
 </menu>
