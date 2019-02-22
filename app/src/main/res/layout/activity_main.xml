@@ -11,49 +11,10 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
-    <android.support.design.widget.NavigationView
 
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-
-        app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@android:color/black"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat.Menu"
-        app:itemTextColor="@color/foreground_material_dark_1"
-        app:menu="@menu/drawer_view">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:clickable="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Logout"
-                android:textSize="32dp"
-                />
-        </LinearLayout>
-    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -53,7 +53,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
+    //private DrawerLayout mDrawerLayout;
     private Fragment fragment = null;
     Class fragmentClass;
     private InterstitialAd mInterstitialAd;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("after", profile + email + pic);
 
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        //mDrawerLayout = findViewById(R.id.drawer_layout);
         fragmentClass = fragment1.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -144,52 +144,28 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-
-        TextView texVar = (TextView) findViewById(R.id.logout);
-        texVar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals g = Globals.getInstance();
-                g.setUser("");
-                g.setEmail("");
-                g.setPicture("");
-                g.setData(0);
-
-                SharedPreferences mPrefs = getSharedPreferences("label", 0);
-                SharedPreferences.Editor mEditor = mPrefs.edit();
-                mEditor.putString("login", "0").commit();
-                mEditor.putString("email", "0").commit();
-                mEditor.putString("pic", "0").commit();
-                mEditor.putString("saved", "0").commit();
-                mEditor.apply();
-                mEditor.commit();
-                changetotwitchactivity();
-            }
-        });
 
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setItemIconTintList(null);
-        NavigationView navview = (NavigationView) findViewById(R.id.nav_view);
-        View header = navview.getHeaderView(0);
-        ImageView simpleImageView = (ImageView) header.findViewById(R.id.imageviewww);
+
+
+
+
+
+
+
+
+
 
         try {
 
-            Picasso.get().load(pic).transform(new CircleTransform()).into(simpleImageView);
+
         } catch (Exception e) {
             changetotwitchactivity();
         }
 
         //TextView text = (TextView) header.findViewById(R.id.textView2);
         //text.setText(profile);
-        navigationView.setNavigationItemSelectedListener(
+
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -198,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                         // set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
+                        //mDrawerLayout.closeDrawers();
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
@@ -234,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
                         return true;
                     }
-                });
+                };
         //firebase stuff for notifications
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationManager mNoti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -275,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                //mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -698,6 +674,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        try {
+            fragment = (Fragment) fragment2.class.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 }
