@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -142,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
 
 
 
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             changetotwitchactivity();
         }
+        ImageView twitchbut = (ImageView) findViewById(R.id.twitchtext);
 
         //TextView text = (TextView) header.findViewById(R.id.textView2);
         //text.setText(profile);
@@ -191,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             fragmentClass = fragment5.class;
                         } else if (menuItem.getItemId() == R.id.menu6) {
                             //twitch
-                            fragmentClass = com.example.oauthtest.kevzterfinal.fortnitefragment.class;
+                            //fragmentClass = com.example.oauthtest.kevzterfinal.fortnitefragment.class;
                         }
                         else if (menuItem.getItemId() == R.id.menu7) {
                             if (mInterstitialAd.isLoaded()) {
@@ -351,6 +355,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public  void onclicktext(ImageView img,Fragment frag){
+        ImageView imgFavorite = img;
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
     //here will the code to save  youtube data and refresh every4h
     public void run() throws Exception {
         Log.i("json", "start");
@@ -444,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void fortniteshop() throws Exception {
         Log.i("json", "start");
@@ -675,11 +689,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         try {
-            fragment = (Fragment) fragment2.class.newInstance();
+            fragment = (Fragment) fragment1.class.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
+    public void showad(){
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+    }
+
 }
