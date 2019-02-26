@@ -17,7 +17,7 @@ public class CustomListAdapterFortnite extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] itempic;
 
-
+    int ab=0;
     public CustomListAdapterFortnite(Activity context, String[] itempic) {
         super(context, R.layout.mylist, itempic);
         // TODO Auto-generated constructor stub
@@ -28,12 +28,36 @@ public class CustomListAdapterFortnite extends ArrayAdapter<String> {
     }
 
     public View getView(int position,View view,ViewGroup parent) {
+        //position = ab;
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.fortnitelist, null,true);
 
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView4);
         ImageView imageView1 = (ImageView) rowView.findViewById(R.id.imageView6);
+
+
+        SharedPreferences mPrefs = context.getSharedPreferences("fortnite", 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         int a = position;
         int b = position;
@@ -65,23 +89,34 @@ public class CustomListAdapterFortnite extends ArrayAdapter<String> {
             a = 12;
             b = 13;
         }
-        if(position>6){
-            a = 12;
-            b = 13;
+        if(position==7){
+            a = 14;
+            b = 15;
         }
-        if(a>=itempic.length){
-            a = itempic.length-1;
+        if(position==8){
+            a = 16;
+            b = 17;
         }
-        if(b>=itempic.length){
-            b = itempic.length-1;
+        if(position>9){
+            a = 18;
+            b = 19;
         }
 
-        Log.i("INTENTINTENTINTENTINTE",""+position+" "+a+" "+b);
-        Log.i("INTENTINTENTINTENTINTE",""+itempic[a]+" "+itempic[b]+" "+itempic[position]);
+        int lenght1 = mPrefs.getInt("lenghtf", 0);
+
+        if(b>=lenght1){
+            b = 99;
+        }
+        if(a>=lenght1){
+            a = 99;
+        }
+        String bild = mPrefs.getString("shoppic"+a, "0");
+        String bild1 = mPrefs.getString("shoppic"+b, "0");
+        Log.i("INTENTINTENTINTENTINTE",""+position+" "+a+" "+b+" "+lenght1);
         try
         {
 
-            Picasso.get().load(itempic[a]).into(imageView);//statements that may cause an exception
+            Picasso.get().load(bild).into(imageView);//statements that may cause an exception
 
         }
         catch (Exception e){
@@ -90,12 +125,13 @@ public class CustomListAdapterFortnite extends ArrayAdapter<String> {
         try
         {
 
-            Picasso.get().load(itempic[b]).into(imageView1);//statements that may cause an exception
+            Picasso.get().load(bild1).into(imageView1);//statements that may cause an exception
 
         }
         catch (Exception e){
 
         }
+        ab++;
 
         return rowView;
 

@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         try {
-            fortniteshop();
+            //fortniteshop();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
     public void fortniteshopf() throws Exception {
         Log.i("json", "start");
         Request request = new Request.Builder()
-                .url("https://fnbr.co/api/shop").removeHeader("tags").addHeader("x-api-key", "265f9a53-b672-4db9-968d-d80c06c06264")
+                .url("https://fortnite-public-api.theapinetwork.com/prod09/store/get").removeHeader("tags")
                 .build();
         Log.i("urlf", "" + request.toString());
         Log.i("headerf", "" + request.headers());
@@ -577,48 +577,52 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                     }
                     String in = response.body().string();
-                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa" + in);
+                    System.out.println("bbbbbbbbbbbbbbb" + in);
 
 
                     try {
 
 
                         JSONObject jObj1 = new JSONObject(in);
-                        String temp = jObj1.getJSONObject("data").getString("featured");
+                        String temp = jObj1.getString("items");
                         JSONArray jarray = new JSONArray(temp);
+                        temp = jarray.toString();
+                        /*
                         temp = jarray.getString(1);
                         jObj1 = new JSONObject(temp);
                         temp = jObj1.getString("images");
                         jObj1 = new JSONObject(temp);
                         temp = jObj1.getString("gallery");
-                        System.out.println("forttestf" + temp);
+                        */
+
                         int secondloopparam = 0;
                         int lenghtcounter = 0;
-                        for (int i = 0; i < 10; i++) {
+                        for (int i = 0; i < 20; i++) {
 
 
                             try {
                                 temp = jarray.getString(secondloopparam);
                                 jObj1 = new JSONObject(temp);
-                                temp = jObj1.getString("images");
+                                temp = jObj1.getString("item");
+
                                 jObj1 = new JSONObject(temp);
-                                if (jObj1.getString("gallery") == "false") {
-                                    temp = jObj1.getString("icon");
-                                } else {
-                                    temp = jObj1.getString("gallery");
-                                }
+                                temp = jObj1.getString("images");
 
-
+                                jObj1 = new JSONObject(temp);
+                                temp = jObj1.getString("information");
+                                Log.i("temptemp", "temp " + temp);
                                 //String videoId = jObj6.getString("videoId");
                                 SharedPreferences mPrefs = getSharedPreferences("fortnite", 0);
                                 SharedPreferences.Editor mEditor = mPrefs.edit();
-                                String loopintt = String.valueOf(secondloopparam + 10);
+                                String loopintt = String.valueOf(secondloopparam);
                                 if (temp.length() >= 0) {
                                     lenghtcounter++;
                                     mEditor.putInt("lenghtf", lenghtcounter);
+
+                                    mEditor.putString("shoppic" + loopintt, temp);
                                 }
 
-                                mEditor.putString("shoppic" + loopintt, temp);
+
 
                                 mEditor.apply();
                                 mEditor.commit();

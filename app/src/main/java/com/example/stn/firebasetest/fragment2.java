@@ -89,14 +89,7 @@ public class fragment2 extends Fragment {
         ViewGroup.LayoutParams params = list.getLayoutParams();
         //fix for overlapping toolbar
         float b = metrics.scaledDensity;
-        if(b==1.5f){
-            params.height = 1750;
-            Log.i("metrics",""+b);
-        }
-        else if(b==3f){
-            params.height = 1650;
-            Log.i("metrics",""+b);
-        }
+
         list.setLayoutParams(params);
         CustomListAdapter adapter=new CustomListAdapter(this.getActivity(), itemname, itemname2);
 

@@ -43,17 +43,21 @@ public class fortnitefragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragmentfortnite, container, false);
+
         SharedPreferences mPrefs = this.getActivity().getSharedPreferences("fortnite", 0);
 
         int lenght1 = mPrefs.getInt("lenghtf", 0);
         int lenghtf1 = mPrefs.getInt("lenght", 0);
-        int asd = lenght1+lenghtf1;
-        itemname = new String[lenght1+lenghtf1];
+        int asd = lenght1;
+        asd++;
+        asd = asd/2;
+
+        itemname = new String[asd];
 
         int arrayvar = 0;
         int i = asd;
 
-        while(i>=0){
+        /*while(i>=0){
 
             String loopintt = String.valueOf(i);
 
@@ -72,12 +76,12 @@ public class fortnitefragment extends Fragment {
 
             i--;
         }
+*/
 
 
 
 
-
-        Log.i("arrays",""+itemname.length) ;
+        Log.i("arrays"," a "+lenght1+"b "+asd) ;
 
 
         ListView list = (ListView)view.findViewById(R.id.listmenufortnite);
