@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.881"
-        app:srcCompat="@drawable/annons" />
+        app:srcCompat="@drawable/twitterreal" />
 
     <ImageView
         android:id="@+id/instagram"
@@ -105,7 +105,7 @@
 
     <ImageView
         android:id="@+id/kevzterlogo"
-        android:layout_width="345dp"
+        android:layout_width="203dp"
         android:layout_height="216dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -115,8 +115,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/kevstericon" />
+        app:layout_constraintVertical_bias="0.425"
+        app:srcCompat="@drawable/kevztericon1" />
 
     <ImageView
         android:id="@+id/twitchlogo"
@@ -187,7 +187,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/add"
         app:layout_constraintVertical_bias="0.214"
-        app:srcCompat="@drawable/addicon" />
+        app:srcCompat="@drawable/twitterloggo" />
 
     <ImageView
         android:id="@+id/instagramloggo"
